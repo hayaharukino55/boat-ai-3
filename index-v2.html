@@ -1,33 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BOAT AI 3 Ver.2.0</title>
-  <style>
-    body {
-      background: #102038;
-      color: white;
-      font-family: sans-serif;
-      padding: 20px;
-    }
-    h1 { color: #57dfff; }
-    button {
-      background: #16a8df;
-      color: white;
-      padding: 14px;
-      border: 0;
-      border-radius: 8px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BOAT AI 3 Ver.2.0</title>
+<style>
+body{background:#102038;color:white;font-family:sans-serif;padding:20px}
+h1{color:#57dfff}
+label{display:block;margin-top:20px;margin-bottom:8px}
+select,button{font-size:18px;padding:12px;border-radius:8px;width:100%;box-sizing:border-box}
+button{background:#16a8df;color:white;border:0;margin-top:24px}
+#result{margin-top:24px;padding:16px;background:#1d3450;border-radius:10px}
+</style>
 </head>
 <body>
-  <h1>🚤 BOAT AI 3 Ver.2.0</h1>
-  <p>3連複・自動予想システム開発中</p>
-  <button onclick="alert('Ver.2.0 起動成功！')">
-    動作テスト
-  </button>
+<h1>🚤 BOAT AI 3 Ver.2.0</h1>
+<p>3連複・自動予想システム開発中</p>
+<label for="venue">開催場</label>
+<select id="venue"></select>
+<label for="race">レース番号</label>
+<select id="race"></select>
+<button onclick="start()">レースを選択</button>
+<div id="result">開催場とレースを選んでね！</div>
+<script>
+const venues=["桐生","戸田","江戸川","平和島","多摩川","浜名湖","蒲郡","常滑","津","三国","びわこ","住之江","尼崎","鳴門","丸亀","児島","宮島","徳山","下関","若松","芦屋","福岡","唐津","大村"];
+const venue=document.getElementById("venue");
+const race=document.getElementById("race");
+venues.forEach((name,i)=>venue.add(new Option(name,String(i+1).padStart(2,"0"))));
+for(let i=1;i<=12;i++)race.add(new Option(i+"R",i));
+function start(){
+const name=venue.options[venue.selectedIndex].text;
+document.getElementById("result").textContent=name+" 第"+race.value+"Rを選択しました。次の段階でレースデータ取得機能を追加します。";
+}
+</script>
 </body>
 </html>
-  
