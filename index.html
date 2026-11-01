@@ -1,12 +1,57 @@
-
 <!DOCTYPE html>
 <html lang="ja">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BOAT AI 3</title>
+<style>
+body{font-family:sans-serif;background:#102038;color:white;padding:16px}
+h1{color:#57dfff}
+.line{margin:10px 0}
+input{width:75px;padding:10px;font-size:17px;border-radius:6px}
+button{background:#16a8df;color:white;border:0;border-radius:8px;padding:14px;font-size:17px;margin-top:12px}
+li{padding:7px}
+</style>
+</head>
+<body>
 <h1>🚤 BOAT AI 3</h1>
-<p>ボートレース3連複予想ソフト</p>
-<button onclick="alert('起動成功！')">
-予想スタート
-</button>
-</html>
+<p>3連複・評価点ランキング（試作版）</p>
+<div id="inputs"></div>
+<button onclick="predict()">予想スタート</button>
+<h2>予想ランキング TOP 5</h2>
+<ol id="results"></ol>
+<script>
+const area=document.getElementById("inputs");
+for(let i=1;i<=6;i++){
+ const d=document.createElement("div");
+ d.className="line";
+ d.textContent=i+"号艇　";
+ const input=document.createElement("input");
+ input.type="number";input.id="b"+i;
+ input.min=0;input.max=100;input.value=50;
+ d.appendChild(input);area.appendChild(d);
+}
+function predict(){
+ const s=[];
+ for(let i=1;i<=6;i++){
+  const el=document.getElementById("b"+i);
+  const v=Number(el.value);
+  if(el.value.trim()===""||!Number.isFinite(v)||v<0||v>100){
+   alert("6艇すべてに0〜100の点数を入力してね");
+   return;
+  }
+  s.push(v);
+ }
+ const combos=[];
+ for(let a=1;a<=4;a++)
+  for(let b=a+1;b<=5;b++)
+   for(let c=b+1;c<=6;c++)
+    combos.push({name:a+"-"+b+"-"+c,score:s[a-1]+s[b-1]+s[c-1]});
+ combos.sort((x,y)=>y.score-x.score||x.name.localeCompare(y.name));
+ document.getElementById("results").innerHTML=
+ combos.slice(0,5).map(x=>"<li>"+x.name+"　評価合計 "+x.score+"</li>").join("");
+}
+</script>
   
+</body>
+</html>
